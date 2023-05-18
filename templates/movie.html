@@ -1,0 +1,174 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <h2 style="color:white;margin-left:5px;">{{ movie.title }}</h2>
+    <div  class="bhanu"style="display: flex; justify-content: center;">
+    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} poster" >
+</div>
+    <p style="color:white;margin-left:5px;">{{ movie.overview }}</p>
+    <h3 style="color:white;margin-left:5px;">Rating</h3>
+    <div class="rating-container">
+        <div class="rating-stars-outer"">
+            <div class="rating-stars-inner" style="margin-right: 10px;"></div>
+        </div>
+        <div class="rating-value" style="color: gold;">{{ rating_average }}</div>
+    </div>
+
+
+
+    <h3 style="color:white;margin-left:5px;">Director</h3>
+    {% if movie.director.id %}
+        <p style="color:white;margin-left:5px;"><a href="{% url 'director_details' movie.director.id %}">{{ movie.director.name }}</a></p>
+    {% else %}
+        <p style="color:white;margin-left:5px;">Unknown</p>
+    {% endif %}
+    
+    <h3 style="color:white;margin-left:5px;">Genres</h3>
+    <div>
+        {% for genre in movie.genres %}
+            <span class="badge badge-primary">{{ genre.name }}</span>
+        {% endfor %}
+    </div>
+
+    <h3 style="color:white;margin-left:5px;">Cast</h3>
+    <div class="card-deck-container">
+        <div class="card-deck ml-auto" style="overflow-x: auto;">
+            {% for cast in movie.credits %}
+            <div class="card" style="min-width: 200px;margin-right: 10px; margin-bottom: 10px;">
+                <div class="hovereffect">
+                    <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" class="card-img-top" alt="{{ cast.name }} profile">
+                    <div class="overlay">
+                        {% if cast.id %}
+                            <a href="{% url 'cast_details' cast.id %}" class="btn btn-primary"><h5 class="card-title">{{ cast.name }}</h5></a>
+                        {% else %}
+                            <h5 class="card-title">{{ cast.name }}</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; display: flex; justify-content: center;">
+        <button type="button" class="btn btn-secondary" onclick="toggleReviews()">See Reviews</button>
+    </div>
+
+    <div id="reviews" style="display: none;">
+        <h3 style="color:white;margin-left:5px;">Reviews</h3>
+        {% if reviews %}
+            <ul>
+                {% for review in reviews %}
+                    <li style="color: whitesmoke;">{{ review.user }}: {{ review.content }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: aliceblue;">No reviews yet.</p>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit Review">
+        </form>
+    </div>
+</div>
+</div>
+<div style="margin-top: 20px; display: flex; justify-content: center;">
+    <a href="" target="_blank" class="btn btn-primary" id="watchNowBtn">Watch Now</a>
+</div>
+<div style="margin-top: 20px; display: flex; justify-content: center;">
+    {% if watch_providers %}
+        <div class="horizontal-view">
+            <ul id="providersList" style="display: none; list-style: none;">
+                {% for provider in watch_providers %}
+                    {% if provider.link %}
+                        <li style="margin-right: 30px;">
+                            <a href="{{ provider.link }}" target="_blank">
+                                <img src="{{ provider.logo_path }}" alt="{{ provider.provider_name }}" width="50" height="50">
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p style="color: aliceblue;">No watch providers available.</p>
+    {% endif %}
+</div>
+
+
+
+
+    
+</main>
+<style>
+    .horizontal-view {
+        display: flex;
+        justify-content: center;
+        list-style: none
+    }
+        .rating-container {
+            display: flex;
+            align-items: center;
+        }
+    
+        .rating-stars-outer {
+            display: inline-block;
+            position: relative;
+            width: 100px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    
+        .rating-stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: "{{ rating_percentage }}%";
+            height: 100%;
+            background-color: gold;
+            border-radius: 10px;
+        }
+    
+        .rating-value {
+            margin-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+</style>
+
+<script>
+    function toggleReviews() {
+        var reviewsDiv = document.getElementById("reviews");
+        if (reviewsDiv.style.display === "none") {
+            reviewsDiv.style.display = "block";
+
+        } else {
+            reviewsDiv.style.display = "none";
+        }
+    }
+
+
+    // Handle click event on "Watch Now" button
+    document.getElementById("watchNowBtn").addEventListener("click", function() {
+        // Show the providers list
+        event.preventDefault();
+        var providersList = document.getElementById("providersList");
+        providersList.style.display = "flex";
+    });
+     // Function to set the rating stars width dynamically
+     function setRatingWidth(percentage) {
+        const ratingStarsInner = document.querySelector(".rating-stars-inner");
+        ratingStarsInner.style.width = percentage;
+    }
+
+    // Example usage
+    const ratingPercentage = "{{ rating_percentage }}%";
+    setRatingWidth(ratingPercentage);
+</script>
+
+{% endblock %}

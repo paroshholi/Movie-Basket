@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+
+{% block content %}
+    <h2 style="color: aliceblue;">Please Confirm Your Information</h2>
+    <p style="color: aliceblue;"><strong>First Name:</strong> {{ first_name }}</p>
+    <p style="color: aliceblue;"><strong>Last Name:</strong> {{ last_name }}</p>
+    <p style="color: aliceblue;"><strong>Email:</strong> {{ email }}</p>
+    <p style="color: aliceblue;"><strong>Favorite Movies:</strong></p>
+    <ul style="color: aliceblue;">
+        {% for movie in movies %}
+            <li>{{ movie.title }}</li>
+        {% endfor %}
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+{% endblock %}

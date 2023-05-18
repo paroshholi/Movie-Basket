@@ -1,0 +1,617 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Movie Basket</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <style>
+        .photo{
+            width:5%;
+            height:5%;
+            border-radius: 25%;
+        }
+        .navbar-brand{
+            margin-left:5%;
+        }
+        .btn-link {
+          font-size: 16px;
+          color: #007bff;
+        }
+        .btn-outline-success:hover {
+          color: #fff;
+        } 
+        
+
+      .carousel-inner img {
+        display: block;
+        margin: auto;
+      max-height: 60%;}
+        .container {
+          max-width: 900px; /* adjust the value as per your requirement */
+          margin: 0 auto;
+      }
+      .card-img-top {
+        height: 300px; /* set a fixed height */
+        object-fit: fill; /* make the image fill the container while preserving its aspect ratio */
+        width: 100%;
+      }
+      .card-deck-container {
+        height: 500px; /* set the height as per your requirement */
+        overflow-y: scroll;
+        margin-bottom: 0px;
+        
+        }
+        ::-webkit-scrollbar {
+          display: none;
+      }
+      
+      .card-deck-container .card {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .hovereffect {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .hovereffect img {
+        transition: all 0.4s ease-in;
+      }
+      
+      .hovereffect .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition: all 0.4s ease-in;
+        opacity: 0;
+      }
+      
+      .hovereffect:hover .overlay {
+        opacity: 1;
+      }
+      
+      .hovereffect .overlay h5,
+      .hovereffect .overlay p {
+        color: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+      
+      .hovereffect .overlay h5 {
+        margin-top: -40px;
+      }
+      
+      .hovereffect .overlay p {
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      .photosize{
+        width:8%;
+        height:8%;
+      }
+      
+    </style>
+  </head>
+
+  <body style="background-color:rgb(46, 50, 50);">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <img  class="photo"  src="{%static 'images/logo1.jpg'%}">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >Languages</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: rgba(15, 2, 2, 0.756);">
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'te' %}">Telugu</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'ta' %}">Tamil</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'hi' %}">Hindi</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'en' %}">English</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'ml' %}">Malayam</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'es' %}">Spanish</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'ja' %}">Japanese</a>
+                <a class="dropdown-item" href="{% url 'movies_by_language' 'ko' %}">Korean</a>
+            </div>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">Genres</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: rgba(15, 2, 2, 0.756);">
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '28' %}">Action</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '12' %}">Adventure</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '16' %}">Animation</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '35' %}">Comedy</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '80' %}">Crime</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '99' %}">Documentary</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '18' %}">Drama</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '10751' %}">Family</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '14' %}">Fantasy</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '36' %}">History</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '27' %}">Horror</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '10749' %}">Romance</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '878' %}">Science Fiction</a>
+                  <a class="dropdown-item" href="{% url 'movies_by_genre' '53' %}">Thriller</a>
+              </div>
+             
+                {%if user.is_authenticated%}
+                  
+                {%else%}
+                <li class="nav-item">
+                  <a  class="nav-link sign" style="margin-left:18%;" href="enter/login">Login</a>
+              </li>
+                {%endif%}
+            </li>
+          </ul>
+            <form action="{% url 'search' %}" method="POST" class="form-inline my-2 my-lg-0">
+              {%csrf_token%}
+              <input type="text" name="query" class="form-control mr-sm-2" style="margin-left:20px;" placeholder="Search" aria-label="Search">
+              <button type="submit" class="btn btn-outline-success my-2 my-sm-0" style="margin-right:15px;">Search</button>
+            </form>
+            <form class="form-inline my-2 my-lg-0">
+             {%if user.is_authenticated%}
+             <a id="link" class="btn btn-outline-success my-2 my-sm-0" style="margin-right:15px; font-size:16px; color: rgb(23, 164, 23);" href="enter/logout">Log out</a>
+              {%else%}
+               
+              <a id="link" class="btn btn-outline-success my-2 my-sm-0" style="margin-right:15px; font-size:16px; color: rgb(23, 164, 23);" href="enter/signup">Sign Up</a>
+            {%endif%}
+           
+          </form>
+        </div>
+      </nav>
+  </header>
+  {% block content %}
+    <main>
+      <div class="container">
+
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <a href="{% url 'movie_details' '579974' %}">
+            <img class="d-block w-100" src="{%static 'images/poster 4.jpg'%}" alt="First slide"></a>
+          </div>
+          <div class="carousel-item">
+            <a href="{% url 'movie_details' '76600' %}">
+            <img class="d-block w-100" src="{%static 'images/poster 5.png'%}" alt="Second slide"></a>
+          </div>
+          <div class="carousel-item">
+            <a href="{% url 'movie_details' '635302' %}">
+            <img class="d-block w-100" src="{%static 'images/poster 6.png'%}" alt="Third slide"></a>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      </div>
+      <br><br>
+      <h3 style="color:white;margin-left:5px;;">Trending Movies</h3>
+      
+      <div class="card-deck-container">
+       
+        <div class="card-deck ml-auto">
+          {% for movie in trending_movies %}
+          <div class="card">
+            <div class="hovereffect">
+             
+              <a href="{% url 'movie_details' movie.id %}">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }} poster">
+              </a>
+              <div class="overlay">
+                <a href="{% url 'movie_details' movie.id %}">
+                  <h5 class="card-title">{{ movie.title }}</h5>
+                </a>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+              
+            </div> 
+            
+          </div>
+          {%endfor%} 
+          
+          
+          
+        </div>
+      </div>
+       
+
+
+      <div class="card-deck-container" style="margin-top:-135px;">
+        <h3 style="color:white;margin-left:5px;">Top Rated Movies</h3>
+        <div class="card-deck ml-auto">
+          {% for movie in top_rated_movies %}
+          <div class="card">
+            <div class="hovereffect">
+              <a href="{% url 'movie_details' movie.id %}">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }} poster">
+              </a>
+              <div class="overlay">
+                <a href="{% url 'movie_details' movie.id %}">
+                  <h5 class="card-title">{{ movie.title }}</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="card-deck-container" style="margin-top:-100px;">
+        <h3 style="color:white;margin-left:5px;">Movies in {{ lan }} Language</h3>
+          <div class="card-deck ml-auto">
+              {% for movie in lan_movies %}
+              <div class="card">
+                  <div class="hovereffect">
+                      <a href="{% url 'movie_details' movie.id %}">
+                          <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }} poster">
+                      </a>
+                      <div class="overlay">
+                          <a href="{% url 'movie_details' movie.id %}">
+                              <h5 class="card-title">{{ movie.title }}</h5>
+                          </a>
+                          <p class="card-text"></p>
+                          <p class="card-text"><small class="text-muted"></small></p>
+                      </div>
+                  </div> 
+              </div>
+              {% endfor %} 
+          </div>
+      </div>
+      
+      {%if user.is_authenticated%}
+      <div class="card-deck-container" style="margin-top:-100px;">
+        <h3 style="color:white;margin-left:5px;">Recommended Movies</h3>
+          <div class="card-deck ml-auto">
+              {% for movie in recommended_movies %}
+              <div class="card">
+                  <div class="hovereffect">
+                      <a href="{% url 'movie_details' movie.id %}">
+                          <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }} poster">
+                      </a>
+                      <div class="overlay">
+                          <a href="{% url 'movie_details' movie.id %}">
+                              <h5 class="card-title">{{ movie.title }}</h5>
+                          </a>
+                          <p class="card-text"></p>
+                          <p class="card-text"><small class="text-muted"></small></p>
+                      </div>
+                  </div> 
+              </div>
+              {% endfor %} 
+          </div>
+      </div>
+      
+      {%endif%}
+      <!--<div class="card-deck-container">
+        <h3 style="color:white;margin-left:5px;;">Latest Movies</h3>
+        <div class="card-deck ml-auto">
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 1.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Dasara</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>  
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 2.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Vathi</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 3.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Pathan</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 4.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Jhon Wick 4</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 5.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Black Clover</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster9.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Jersey</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-deck-container" style="margin-top:-135px;">
+        <h3 style="color:white;margin-left:5px">Top Rated</h3><br>
+        <div class="card-deck ml-auto" style="margin-top:-20px">
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster10.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">hridayam</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>  
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster11.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">KGF</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster12.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Rangasthalam</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster13.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Bahubali 2</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 6.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Jersey</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster 8.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">RRR</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>         
+      <div class="card-deck-container"style="margin-top:-115px;">
+        <h3 style="color:white;margin-left:5px">Recommended Movies</h3><br>
+        <div class="card-deck ml-auto" style="margin-top:-20px">
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster14.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Vikram</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster15.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Pushpa</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>  
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster16.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Asuran</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster17.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Srimanthudu</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster18.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Vikram Veda</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster19.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Driving Licence</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-deck-container"style="margin-top:-115px;">
+        <h3 style="color:white;margin-left:5px">Telugu Movies</h3><br>
+        <div class="card-deck ml-auto" style="margin-top:-20px">
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster 8.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">RRR</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster12.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Rangasthalam</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>  
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster17.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Srimanthudu</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster13.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Bahubali 2</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/poster15.png'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Pushpa</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hovereffect">
+              <img src="{%static 'images/card 6.jpg'%}" class="card-img-top" alt="...">
+              <div class="overlay">
+                <h5 class="card-title">Jersey</h5>
+                <p class="card-text"></p>
+                <p class="card-text"><small class="text-muted"></small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+    </main>
+    {% endblock %}
+    <footer class="bg-dark text-white">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Follow Us</h4>
+            <ul class="list-unstyled">
+              
+              <li><a href="https://www.facebook.com" target="_blank"><img class="photosize"src="{%static 'images/fb.png'%}" alt="Facebook"> </a></li>
+              <li><a href="https://www.instagram.com" target="_blank"><img class="photosize" src="{%static 'images/tw.png'%}" alt="Twitter"> </a></li>
+              <li><a href="https://www.twiter.com" target="_blank"><img class="photosize" src="{%static 'images/ins.png'%}" alt="Instagram"> </a></li>
+              
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h4>Contact Us</h4>
+            <ul class="list-unstyled">
+              <li><a href="#"><i class="fas fa-phone"></i> 123-456-7890</a></li>
+              <li><a href="#"><i class="fas fa-envelope"></i> sendmail@gmail.com</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>About Us</h5>
+            <p>We are movie enthusiasts dedicated to providing you with the best recommendations and information. Enjoy your time on Movie Basket!</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <p>&copy; 2023 My Movie Website. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-right">
+            <ul class="list-unstyled">
+              <li><a href="#">Terms &amp; Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+    
+  </body>
+</html>

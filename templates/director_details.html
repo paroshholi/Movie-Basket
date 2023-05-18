@@ -1,0 +1,33 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<main>
+    <div style="display: flex; justify-content: center;">
+        <div style="text-align: center;">
+            <h2 style="color: white;">{{ director_name }}</h2>
+            <img src="https://image.tmdb.org/t/p/w500{{ director_profile_path }}" alt="{{ director_name }} profile" style="margin-bottom: 10px;">
+            <p style="color: white;">{{ director_biography }}</p>
+        </div>
+    </div>
+
+    <h3 style="color: white; margin-left: 5px;">Movies Directed</h3>
+    <div class="card-deck-container" style="margin-top: 20px;">
+        <div class="card-deck ml-auto" style="overflow-x: auto; gap: 20px;">
+            {% for movie in movie_credits %}
+            <div class="card" style="min-width: 200px;">
+                <div class="hovereffect">
+                    <a href="{% url 'movie_details' movie.id %}">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }} poster">
+                    </a>
+                    <div class="overlay">
+                        <a href="{% url 'movie_details' movie.id %}">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

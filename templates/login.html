@@ -1,0 +1,158 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .form{
+            height: 800px;
+            padding:0px;
+        }
+        .bbbb{
+            width:20%;
+            height: 20%;
+            border-radius:10%;
+            margin-left:38%;
+            padding: 0%;
+            
+        }
+        .project{
+            background-color:white;
+            width:30%;
+            height:430px;
+            margin-top: 3%;
+            margin-bottom: 30%;
+            margin-right: 20%;
+            margin-left: 35%;
+            border-radius: 10%;
+            border-color: black;
+            border-width: thick;
+            padding: 0px;
+        
+        }
+        .search{
+            margin-left:20% ;
+            width:60%;
+            height:25px;
+            margin-top:5%;
+            border-color: #000000;
+            text-align: center;
+            padding: 0px;
+        }
+        .password{
+            margin-left:20% ;
+            width:60%;
+            height:25px;
+
+            margin-top: 5%;
+            
+            border-color: #000000;
+            display: inline-block;
+            text-align:center;
+            padding: 0px;
+        
+        }
+        .body{
+            border-width: 5%;
+            background-color:#000000;
+            border-color: black;
+
+        }
+        .box{          
+            width:20%;
+            height:25px;
+            margin-top:7%;
+            text-align: center;
+            text-size-adjust: 60%;
+            margin-left:40% ;
+            background-color: antiquewhite;
+            
+        }
+        .box:hover{
+            background-color: rgb(120, 232, 232);
+            
+        }
+        .papa{
+            margin-left:25%;
+            margin-top:5%;
+            margin-bottom:5%;
+            margin-right:20% ;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+  
+        }
+        .ppp{
+            margin-left:50%;    
+        }
+        .sri{
+            
+            text-align-last: center;
+        }
+        .kkk{
+            margin-left: 40%;
+            width: 5%;
+            height:20px;
+            margin-top: 4%;
+
+        }
+        .nnn{
+            width: 5%;
+            height:5%;
+            margin-top: 4%;
+            margin-left:3%;
+        }
+        .mmm{
+            width: 6%;
+            height:6%;
+            margin-top: 4%;
+            margin-left:2%;
+            flex-direction: row;
+        }
+        .bbb{
+            text-align: center;
+            flex-direction: row;
+        }
+        .mine {
+            text-align: center;
+            margin-top:0%;
+            color: rgb(0, 0, 0);
+          }
+    </style>
+</head>
+<body class="body">
+    <div class="project">
+        <img class="bbbb" src="{%static 'images/logo.jpg'%}">
+        <h2 class="bbb">LOGIN</h2>
+        <form class="form" action="login" method="post">
+            {%csrf_token%}
+            <input class="search" type="text" name="username" placeholder="username">
+            <input class="password" type="password" name="password" placeholder="password">
+            <a class="ppp" href="https://www.youtube.com/" >forgot password?</a>
+            <input type="submit" class="box" value="login">
+            `       
+    
+      <!--  <a  href="https://www.youtube.com/"><img class="kkk" ></a>
+        <a  href="https://www.youtube.com/"><img class="nnn" ></a>
+        <a  href="https://www.youtube.com/"><img class="mmm"></a>
+        <br>
+        <br>-->
+        <div class="papa">
+            <h4>create an account?</h4><a href="signup" target="_self">signup</a>
+        <br>
+    </div>
+    <br>
+    <div class="mine">    
+        {%for message in messages%}
+        <h5>{{message}}</h5>
+        {%endfor%}
+    </div>
+        </form>
+    </div>  
+</body>
+</html>

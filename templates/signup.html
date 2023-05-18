@@ -1,0 +1,158 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Basket</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .form{
+            height: 800px;
+            padding:0px;
+        }
+        .bbbb{
+            width:20%;
+            height: 20%;
+            border-radius:10%;
+            margin-left:38%;
+            padding: 0%;   
+        }
+        .project{
+            background-color:white;
+            width:35%;
+            height:600px;
+            margin-top:0%;
+            margin-bottom: 30%;
+            margin-right: 20%;
+            margin-left: 32%;
+            border-radius: 10%;
+            border-color: black;
+            border-width: thick;
+            padding: 0px;
+        }
+        .search{
+            margin-left:20% ;
+            width:60%;
+            height:25px;
+            margin-top:5%;
+            border-color: #000000;
+            text-align: center;
+            padding: 0px;
+        }
+        .password{
+            margin-left:20% ;
+            width:60%;
+            height:25px;
+
+            margin-top: 5%;
+            
+            border-color: #000000;
+            display: inline-block;
+            text-align:center;
+            padding: 0px;
+        
+        
+        }
+        .pass{
+            margin-left:20% ;
+            width:60%;
+            height:25px;
+
+            margin-top: 5%;
+            
+            border-color: #000000;
+            display: inline-block;
+            text-align:center;
+            padding: 0px;
+        
+        }
+        .body{
+            border-width: 5%;
+            background-color:#454545;
+            border-color: black;
+           
+        }
+        .box{          
+            width:20%;
+            height:25px;
+            margin-top:7%;
+           
+            margin-left:40% ;
+            background-color: antiquewhite;
+            
+        }
+        .box:hover{
+            background-color: rgb(120, 232, 232);
+            
+        }
+        .papa{
+            margin-top: 3%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .bbb{
+            text-align: center;
+        }
+        .vvv{
+            margin-left:20%;
+        }
+        .ddd{
+            margin-left:15%;
+        }
+        .mine {
+            text-align: center;
+            margin-top:0%;
+            color: rgb(0, 0, 0);
+          }
+    </style>
+</head>
+    <body>
+    <body class="body">
+        <div class="project">
+            <img class="bbbb" src="{%static 'images/logo.jpg' %}" alt='Movie Basket'>
+            <h2 class="bbb">SIGN UP</h2>
+            <form class="form" action="signup" method="post">
+                {%csrf_token%}
+                <input class="pass" type="text" name="first_name" placeholder="First Name">
+                <input class="pass" type="text" name="last_name" placeholder="Last Name">
+                <input class="pass" type="text" name="username" placeholder="User name">
+                <input class="search" type="text" name="email" placeholder="Email">
+                <input class="password" type="password" name="password1" placeholder="Password">
+                <input class="password" type="password" name="password2" placeholder="Confirm Password">
+                <div class="form-group">
+                    <label for="favorite_language">Favorite Language:</label>
+                    <select class="form-control" id="favorite_language" name="favorite_language">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                        <option value="ta">Tamil</option>
+                        <option value="ml">Malayalam</option>
+                        <option value="kn">Kannada</option>
+                        <option value="ja">Japanese</option>
+                    </select>
+                </div>
+                
+                <br><br>
+                <!--<label><h5><input class="vvv" type="checkbox"> i agreed all <a href="www.youtube.com">
+                    terms&conditions</a></h5></label>-->
+            <div class="mine">    
+                        {%for message in messages%}
+                        <p>{{message}}</p>
+                        {%endfor%}
+            </div>
+                <input type="submit" class="box" value="sign up">
+
+            <div class="papa" ><h5>already have an account?</h5>
+                <a href="login" target="_self" >login</a>
+            </div>
+
+            </form>
+        </div>
+        </body>
+</html>
