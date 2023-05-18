@@ -80,10 +80,12 @@ WSGI_APPLICATION = 'Movie_Basket.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'movies',
-        'USER':'postgres',
-        'PASSWORD':'12345678',
-        'HOST' : 'localhost'
+        'URL': 'postgresql://postgres:31S6e4bNGiqbBvBFrVgN@containers-us-west-134.railway.app:8000/railway',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': '31S6e4bNGiqbBvBFrVgN',
+        'HOST': 'containers-us-west-134.railway.app',
+        'PORT': 8000,
     }
 }
 
